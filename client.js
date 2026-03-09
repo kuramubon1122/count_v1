@@ -2,14 +2,14 @@ const countElement = document.getElementById('count');
 const incrementButton = document.getElementById('increment-button');
 const statusElement = document.getElementById('status');
 
-// 自宅 Crostini の IP アドレスとポートを指定
-// GitHub Pages からアクセスするため、直接 IP アドレスとポートを記述します。
-// ポートは server.js で設定しているもの (デフォルトは 3000)
-const CROSTINI_SERVER_IP = '100.115.92.203'; // あなたの Crostini IP アドレスに修正済み
-const CROSTINI_SERVER_PORT = '3000'; // server.js で設定したポート
+// WebSocketの接続先を、**ルーターのグローバルIPアドレス**と**開けたポート**に設定
+// Crostiniの内部IP (100.115.92.203) や CrostiniのNode.jsサーバーのポート (3000) は、
+// ルーターが内部で適切に転送してくれるので、クライアントからはグローバルIPと外部ポートに接続します。
+const GLOBAL_ROUTER_IP = '14.11.64.33'; // ★あなたのルーターのグローバルIPアドレスに置き換え済み
+const EXTERNAL_PORT = '4352'; // ★ルーターで開ける外部ポート番号に置き換え済み (例として4352)
 
-const wsProtocol = 'ws:'; // GitHub Pages が HTTPS でも、Crostini が HTTP なら ws: を使う
-const ws = new WebSocket(`${wsProtocol}//${CROSTINI_SERVER_IP}:${CROSTINI_SERVER_PORT}`);
+const wsProtocol = 'ws:';
+const ws = new WebSocket(`${wsProtocol}//${GLOBAL_ROUTER_IP}:${EXTERNAL_PORT}`);
 
 ws.onopen = () => {
   statusElement.textContent = 'Crostini サーバーに接続しました。';
